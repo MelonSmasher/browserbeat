@@ -108,13 +108,350 @@ type: keyword
 None
 
 
-*`counter`*::
+*`type`*::
 +
 --
-PLEASE UPDATE DOCUMENTATION
+The type of data being sent.
+
+type: keyword
+
+required: True
+
+--
+
+[float]
+=== data
+
+The data that has been collected
 
 
-type: long
+*`data.@timestamp`*::
++
+--
+Date/time when the user visited the URL.
+
+type: date
+
+required: True
+
+--
+
+*`data.@processed`*::
++
+--
+Date/time when the history entry was processed.
+
+type: date
+
+required: True
+
+--
+
+[float]
+=== host
+
+Contains the machines FQDN and short hostname.
+
+
+*`data.host.hostname`*::
++
+--
+The machines full FQDN.
+
+type: keyword
+
+required: True
+
+--
+
+*`data.host.short`*::
++
+--
+The machines short name.
+
+type: keyword
+
+required: True
+
+--
+
+[float]
+=== event
+
+Contains data about the local machine and the browser history record.
+
+
+*`data.event.module`*::
++
+--
+The elastic beat name and current browser
+
+type: keyword
+
+required: True
+
+--
+
+[float]
+=== data
+
+Contains the history entry and client info
+
+
+[float]
+=== entry
+
+Contains the browser history record.
+
+
+*`data.event.data.entry.date`*::
++
+--
+Date/time when the user visited the URL.
+
+type: date
+
+required: True
+
+--
+
+*`data.event.data.entry.url`*::
++
+--
+The URL obtained from the browser history.
+
+type: keyword
+
+required: True
+
+--
+
+*`data.event.data.entry.title`*::
++
+--
+The website title obtained from the browser history.
+
+type: keyword
+
+required: True
+
+--
+
+[float]
+=== url_data
+
+The url broken down into parsed pieces.
+
+
+[float]
+=== User
+
+Any username and password information
+
+
+*`data.event.data.entry.url_data.User.username`*::
++
+--
+The username
+
+type: keyword
+
+required: False
+
+--
+
+*`data.event.data.entry.url_data.User.password`*::
++
+--
+The password
+
+type: keyword
+
+required: False
+
+--
+
+*`data.event.data.entry.url_data.User.passwordSet`*::
++
+--
+type: boolean
+
+required: False
+
+--
+
+*`data.event.data.entry.url_data.Host`*::
++
+--
+The host or host:port
+
+type: keyword
+
+required: False
+
+--
+
+*`data.event.data.entry.url_data.RawPath`*::
++
+--
+The encoded path hint (see EscapedPath method)
+
+type: keyword
+
+required: False
+
+--
+
+*`data.event.data.entry.url_data.ForceQuery`*::
++
+--
+The if the url had forced a ? at the end
+
+type: boolean
+
+required: False
+
+--
+
+*`data.event.data.entry.url_data.Fragment`*::
++
+--
+The fragment for references, without #
+
+type: keyword
+
+required: False
+
+--
+
+*`data.event.data.entry.url_data.Scheme`*::
++
+--
+The scheme used to access the content.
+
+type: keyword
+
+required: False
+
+--
+
+*`data.event.data.entry.url_data.Path`*::
++
+--
+The path (relative paths may omit leading slash)
+
+type: keyword
+
+required: False
+
+--
+
+*`data.event.data.entry.url_data.RawQuery`*::
++
+--
+The encoded query values, without ?
+
+type: keyword
+
+required: False
+
+--
+
+*`data.event.data.entry.url_data.Opaque`*::
++
+--
+Any encoded opaque data.
+
+type: keyword
+
+required: False
+
+--
+
+[float]
+=== client
+
+Contains data about the local machine.
+
+
+*`data.event.data.client.ip_addresses`*::
++
+--
+A list of the non-local ip addresses on this machine.
+
+type: ip
+
+required: True
+
+--
+
+*`data.event.data.client.user`*::
++
+--
+The username of the user profile that this history entry was pulled from.
+
+type: keyword
+
+required: True
+
+--
+
+*`data.event.data.client.platform`*::
++
+--
+The GOOS platform.
+
+type: keyword
+
+required: True
+
+--
+
+*`data.event.data.client.browser`*::
++
+--
+The browser of the user profile that this history entry was pulled from.
+
+type: keyword
+
+required: True
+
+--
+
+*`data.event.data.client.user`*::
++
+--
+The username of the user profile that this history entry was pulled from.
+
+type: keyword
+
+required: True
+
+--
+
+[float]
+=== Hostname
+
+Contains the machines FQDN and short hostname.
+
+
+*`data.event.data.client.Hostname.hostname`*::
++
+--
+The machines full FQDN.
+
+type: keyword
+
+required: True
+
+--
+
+*`data.event.data.client.Hostname.short`*::
++
+--
+The machines short name.
+
+type: keyword
 
 required: True
 

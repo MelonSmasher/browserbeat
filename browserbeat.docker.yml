@@ -1,5 +1,5 @@
 browserbeat:
-  period: 1s
+  period: 10s
 processors:
 - add_cloud_metadata: ~
 

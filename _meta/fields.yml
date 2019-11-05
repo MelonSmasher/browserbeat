@@ -3,7 +3,7 @@
   description:
   fields:
     - name: type
-      type: string
+      type: keyword
       required: true
       description: 'The type of data being sent.'
     - name: data
@@ -25,11 +25,11 @@
           description: 'Contains the machines FQDN and short hostname.'
           fields:
             - name: hostname
-              type: string
+              type: keyword
               required: true
               description: 'The machines full FQDN.'
             - name: short
-              type: string
+              type: keyword
               required: true
               description: 'The machines short name.'
         - name: event
@@ -39,7 +39,7 @@
           fields:
             - name: module
               required: true
-              type: string
+              type: keyword
               description: 'The elastic beat name and current browser'
             - name: data
               required: true
@@ -57,11 +57,11 @@
                       description: 'Date/time when the user visited the URL.'
                     - name: url
                       required: true
-                      type: string
+                      type: keyword
                       description: 'The URL obtained from the browser history.'
                     - name: title
                       required: true
-                      type: string
+                      type: keyword
                       description: 'The website title obtained from the browser history.'
                     - name: url_data
                       required: true
@@ -75,22 +75,22 @@
                           fields:
                             - name: username
                               required: false
-                              type: string
+                              type: keyword
                               description: 'The username'
                             - name: password
                               required: false
-                              type: string
+                              type: keyword
                               description: 'The password'
                             - name: passwordSet
                               required: false
                               type: boolean
                         - name: Host
                           required: false
-                          type: string
+                          type: keyword
                           description: 'The host or host:port'
                         - name: RawPath
                           required: false
-                          type: string
+                          type: keyword
                           description: 'The encoded path hint (see EscapedPath method)'
                         - name: ForceQuery
                           required: false
@@ -98,23 +98,23 @@
                           description: 'The if the url had forced a ? at the end'
                         - name: Fragment
                           required: false
-                          type: string
+                          type: keyword
                           description: 'The fragment for references, without #'
                         - name: Scheme
                           required: false
-                          type: string
+                          type: keyword
                           description: 'The scheme used to access the content.'
                         - name: Path
                           required: false
-                          type: string
+                          type: keyword
                           description: 'The path (relative paths may omit leading slash)'
                         - name: RawQuery
                           required: false
-                          type: string
+                          type: keyword
                           description: 'The encoded query values, without ?'
                         - name: Opaque
                           required: false
-                          type: string
+                          type: keyword
                           description: 'Any encoded opaque data.'
                 - name: client
                   required: true
@@ -123,23 +123,23 @@
                   fields:
                     - name: ip_addresses
                       required: true
-                      type: keyword
+                      type: ip
                       description: 'A list of the non-local ip addresses on this machine.'
                     - name: user
                       required: true
-                      type: string
+                      type: keyword
                       description: 'The username of the user profile that this history entry was pulled from.'
                     - name: platform
                       required: true
-                      type: string
+                      type: keyword
                       description: 'The GOOS platform.'
                     - name: browser
                       required: true
-                      type: string
+                      type: keyword
                       description: 'The browser of the user profile that this history entry was pulled from.'
                     - name: user
                       required: true
-                      type: string
+                      type: keyword
                       description: 'The username of the user profile that this history entry was pulled from.'
                     - name: Hostname
                       required: true
@@ -147,10 +147,10 @@
                       description: 'Contains the machines FQDN and short hostname.'
                       fields:
                         - name: hostname
-                          type: string
+                          type: keyword
                           required: true
                           description: 'The machines full FQDN.'
                         - name: short
-                          type: string
+                          type: keyword
                           required: true
                           description: 'The machines short name.'
