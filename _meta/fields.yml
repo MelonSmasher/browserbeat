@@ -11,11 +11,11 @@
       required: true
       description: 'The data that has been collected'
       fields:
-        - name: @timestamp
+        - name: "@timestamp"
           required: true
           type: date
           description: 'Date/time when the user visited the URL.'
-        - name: @processed
+        - name: "@processed"
           required: true
           type: date
           description: 'Date/time when the history entry was processed.'
