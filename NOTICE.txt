@@ -1,0 +1,5 @@
+browserbeat
+Copyright 2019 Alex Markessinis
+
+This product includes software developed by The Apache Software
+Foundation (http://www.apache.org/).
