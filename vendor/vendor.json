@@ -1,0 +1,31 @@
+{
+	"comment": "",
+	"ignore": "",
+	"package": [
+		{
+			"path": "appengine",
+			"revision": ""
+		},
+		{
+			"path": "appengine/cloudsql",
+			"revision": ""
+		},
+		{
+			"path": "appengine_internal",
+			"revision": ""
+		},
+		{
+			"path": "appengine_internal/base",
+			"revision": ""
+		},
+		{
+			"checksumSHA1": "uEKlxbdj3bnUDfnBnkBsJ3bekwE=",
+			"path": "github.com/mattn/go-sqlite3",
+			"revision": "b612a2feea6aa87c6d052d9086572551df06497e",
+			"revisionTime": "2019-07-16T05:56:09Z",
+			"version": "v1.11.0",
+			"versionExact": "v1.11.0"
+		}
+	],
+	"rootPath": "github.com/MelonSmasher/browserbeat"
+}
