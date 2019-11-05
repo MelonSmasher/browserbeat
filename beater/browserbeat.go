@@ -42,10 +42,6 @@ func (bt *Browserbeat) Run(b *beat.Beat) error {
 		return err
 	}
 
-	browsers := getBrowserHistoryPaths()
-	hn := getHostname()
-	ipAddresses := getLocalIPs()
-
 	ticker := time.NewTicker(bt.config.Period)
 
 	for {
@@ -55,6 +51,9 @@ func (bt *Browserbeat) Run(b *beat.Beat) error {
 		case <-ticker.C:
 		}
 
+		browsers := getBrowserHistoryPaths()
+		hn := getHostname()
+		ipAddresses := getLocalIPs()
 		cleanScratchDir()
 
 		for _, browser := range []string{"chrome", "firefox", "safari"} {
@@ -104,7 +103,6 @@ func (bt *Browserbeat) Run(b *beat.Beat) error {
 				}
 			}
 		}
-
 		cleanScratchDir()
 	}
 }
