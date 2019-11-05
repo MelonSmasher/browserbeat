@@ -2,8 +2,155 @@
   title: browserbeat
   description:
   fields:
-    - name: counter
-      type: long
+    - name: type
+      type: string
       required: true
-      description: >
-        PLEASE UPDATE DOCUMENTATION
+      description: 'The type of data being sent.'
+    - name: data
+      type: group
+      required: true
+      description: 'The data that has been collected'
+      fields:
+        - name: @timestamp
+          required: true
+          type: date
+          description: 'Date/time when the user visited the URL.'
+        - name: @processed
+          required: true
+          type: date
+          description: 'Date/time when the history entry was processed.'
+        - name: host
+          required: true
+          type: group
+          description: 'Contains the machines FQDN and short hostname.'
+          fields:
+            - name: hostname
+              type: string
+              required: true
+              description: 'The machines full FQDN.'
+            - name: short
+              type: string
+              required: true
+              description: 'The machines short name.'
+        - name: event
+          required: true
+          type: group
+          description: 'Contains data about the local machine and the browser history record.'
+          fields:
+            - name: module
+              required: true
+              type: string
+              description: 'The elastic beat name and current browser'
+            - name: data
+              required: true
+              type: group
+              description: 'Contains the history entry and client info'
+              fields:
+                - name: entry
+                  required: true
+                  type: group
+                  description: 'Contains the browser history record.'
+                  fields:
+                    - name: date
+                      required: true
+                      type: date
+                      description: 'Date/time when the user visited the URL.'
+                    - name: url
+                      required: true
+                      type: string
+                      description: 'The URL obtained from the browser history.'
+                    - name: title
+                      required: true
+                      type: string
+                      description: 'The website title obtained from the browser history.'
+                    - name: url_data
+                      required: true
+                      type: group
+                      description: 'The url broken down into parsed pieces.'
+                      fields:
+                        - name: User
+                          required: false
+                          type: group
+                          description: 'Any username and password information'
+                          fields:
+                            - name: username
+                              required: false
+                              type: string
+                              description: 'The username'
+                            - name: password
+                              required: false
+                              type: string
+                              description: 'The password'
+                            - name: passwordSet
+                              required: false
+                              type: boolean
+                        - name: Host
+                          required: false
+                          type: string
+                          description: 'The host or host:port'
+                        - name: RawPath
+                          required: false
+                          type: string
+                          description: 'The encoded path hint (see EscapedPath method)'
+                        - name: ForceQuery
+                          required: false
+                          type: boolean
+                          description: 'The if the url had forced a ? at the end'
+                        - name: Fragment
+                          required: false
+                          type: string
+                          description: 'The fragment for references, without #'
+                        - name: Scheme
+                          required: false
+                          type: string
+                          description: 'The scheme used to access the content.'
+                        - name: Path
+                          required: false
+                          type: string
+                          description: 'The path (relative paths may omit leading slash)'
+                        - name: RawQuery
+                          required: false
+                          type: string
+                          description: 'The encoded query values, without ?'
+                        - name: Opaque
+                          required: false
+                          type: string
+                          description: 'Any encoded opaque data.'
+                - name: client
+                  required: true
+                  type: group
+                  description: 'Contains data about the local machine.'
+                  fields:
+                    - name: ip_addresses
+                      required: true
+                      type: keyword
+                      description: 'A list of the non-local ip addresses on this machine.'
+                    - name: user
+                      required: true
+                      type: string
+                      description: 'The username of the user profile that this history entry was pulled from.'
+                    - name: platform
+                      required: true
+                      type: string
+                      description: 'The GOOS platform.'
+                    - name: browser
+                      required: true
+                      type: string
+                      description: 'The browser of the user profile that this history entry was pulled from.'
+                    - name: user
+                      required: true
+                      type: string
+                      description: 'The username of the user profile that this history entry was pulled from.'
+                    - name: Hostname
+                      required: true
+                      type: group
+                      description: 'Contains the machines FQDN and short hostname.'
+                      fields:
+                        - name: hostname
+                          type: string
+                          required: true
+                          description: 'The machines full FQDN.'
+                        - name: short
+                          type: string
+                          required: true
+                          description: 'The machines short name.'
