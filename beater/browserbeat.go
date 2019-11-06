@@ -35,13 +35,11 @@ func New(b *beat.Beat, cfg *common.Config) (beat.Beater, error) {
 // Run starts browserbeat.
 func (bt *Browserbeat) Run(b *beat.Beat) error {
 	logp.Info("browserbeat is running! Hit CTRL-C to stop it.")
-
 	var err error
 	bt.client, err = b.Publisher.Connect()
 	if err != nil {
 		return err
 	}
-
 	ticker := time.NewTicker(bt.config.Period)
 
 	for {
@@ -50,57 +48,22 @@ func (bt *Browserbeat) Run(b *beat.Beat) error {
 			return nil
 		case <-ticker.C:
 		}
-
 		browsers := getBrowserHistoryPaths()
 		hn := getHostname()
 		ipAddresses := getLocalIPs()
 		cleanScratchDir()
-
 		for _, browser := range []string{"chrome", "firefox", "safari"} {
-			if browser == "chrome" {
-				chromeEvents := readBrowserData(browsers.chrome, browser, hn, ipAddresses)
-				for _, data := range chromeEvents {
-					event := beat.Event{
-						Timestamp: time.Now(),
-						Fields: common.MapStr{
-							"type": "browser.history",
-							"data": data,
-						},
-					}
-					bt.client.Publish(event)
-					logp.Info("Chrome event sent")
-
+			events := readBrowserData(browsers, browser, hn, ipAddresses)
+			for _, data := range events {
+				event := beat.Event{
+					Timestamp: time.Now(),
+					Fields: common.MapStr{
+						"type": "browser.history",
+						"data": data,
+					},
 				}
-			}
-			if browser == "firefox" {
-				firefoxEvents := readBrowserData(browsers.firefox, browser, hn, ipAddresses)
-
-				for _, data := range firefoxEvents {
-					event := beat.Event{
-						Timestamp: time.Now(),
-						Fields: common.MapStr{
-							"type": "browser.history",
-							"data": data,
-						},
-					}
-					bt.client.Publish(event)
-					logp.Info("Firefox event sent")
-				}
-			}
-			if browser == "safari" {
-				safariEvents := readBrowserData(browsers.safari, browser, hn, ipAddresses)
-
-				for _, data := range safariEvents {
-					event := beat.Event{
-						Timestamp: time.Now(),
-						Fields: common.MapStr{
-							"type": "browser.history",
-							"data": data,
-						},
-					}
-					bt.client.Publish(event)
-					logp.Info("Safari event sent")
-				}
+				bt.client.Publish(event)
+				logp.Info(browser + " event sent")
 			}
 		}
 		cleanScratchDir()

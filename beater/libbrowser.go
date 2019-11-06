@@ -366,8 +366,15 @@ func readBrowserState(browser string, user string) ([]byte, error) {
 	return stamp, err
 }
 
-func readBrowserData(browserData []userBrowserHistoryPath, browser string, hn hostnameObj, ipAddresses []string) []turkeyBite {
-
+func readBrowserData(browsers systemBrowserHistoryPaths, browser string, hn hostnameObj, ipAddresses []string) []turkeyBite {
+	var browserData []userBrowserHistoryPath
+	if browser == "chrome" {
+		browserData = browsers.chrome
+	} else if browser == "firefox" {
+		browserData = browsers.firefox
+	} else if browser == "safari" {
+		browserData = browsers.safari
+	}
 	var bites []turkeyBite
 	dateFormat := "2006-01-02 15:04:05"
 
