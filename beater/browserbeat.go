@@ -48,13 +48,28 @@ func (bt *Browserbeat) Run(b *beat.Beat) error {
 			return nil
 		case <-ticker.C:
 		}
+
+		//**************************** Initial information section ****************************************************/
+		//**** This runs on each iteration to pick up any changes to the environment without restarting browserbeat ***/
+		// Get all all paths to browser history databases for each user on the machine
 		browsers := getBrowserHistoryPaths()
+		// Get the machine's hostname
 		hn := getHostname()
+		// Get the machine's local network IP addresses
 		ipAddresses := getLocalIPs()
+		//*************************************************************************************************************/
+
+		// Clean up any copied browser databases from the last run
 		cleanScratchDir()
+
+		//********************************* Begin main loop ***********************************************************/
+		// Loop for each supported browser
 		for _, browser := range []string{"chrome", "firefox", "safari"} {
+			// Read the current target browser's data base for each user on the machine
 			events := readBrowserData(browsers, browser, hn, ipAddresses)
+			// Loop through all of the browser history events
 			for _, data := range events {
+				// Store the event in a shippable format
 				event := beat.Event{
 					Timestamp: time.Now(),
 					Fields: common.MapStr{
@@ -62,10 +77,15 @@ func (bt *Browserbeat) Run(b *beat.Beat) error {
 						"data": data,
 					},
 				}
+				// Send the data on it's way
 				bt.client.Publish(event)
+				// Log that we sent the data
 				logp.Info(browser + " event sent")
 			}
 		}
+		//******************************* End main loop ***************************************************************/
+
+		// Clean up any copied browser databases from this run
 		cleanScratchDir()
 	}
 }

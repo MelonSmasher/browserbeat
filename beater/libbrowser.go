@@ -368,7 +368,7 @@ func readBrowserState(browser string, user string) ([]byte, error) {
 	return stamp, err
 }
 
-func readBrowserData(browsers systemBrowserHistoryPaths, browser string, hn hostnameObj, ipAddresses []string) []turkeyBite {
+func readBrowserData(browsers systemBrowserHistoryPaths, browser string, hn hostnameObj, ipAddresses []string) []browserBeatData {
 	var browserData []userBrowserHistoryPath
 	if browser == "chrome" {
 		browserData = browsers.chrome
@@ -377,7 +377,7 @@ func readBrowserData(browsers systemBrowserHistoryPaths, browser string, hn host
 	} else if browser == "safari" {
 		browserData = browsers.safari
 	}
-	var bites []turkeyBite
+	var bites []browserBeatData
 	dateFormat := "2006-01-02 15:04:05"
 
 	if len(browserData) > 0 {
@@ -409,13 +409,13 @@ func readBrowserData(browsers systemBrowserHistoryPaths, browser string, hn host
 						requestTime = time.Now()
 					}
 
-					bite := turkeyBite{
+					bite := browserBeatData{
 						requestTime,
 						time.Now(),
 						hn,
 						event{
 							dataset{
-								biteData{
+								urlInfo{
 									entry.Date.String,
 									entry.Url.String,
 									entry.Title.String,

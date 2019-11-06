@@ -8,6 +8,10 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+/**
+This file contains structured data type definitions
+*/
+
 type srcAndDestPaths struct {
 	src  string
 	dest string
@@ -50,7 +54,7 @@ type clientInfo struct {
 	Hostname    hostnameObj `json:"Hostname"`
 }
 
-type biteData struct {
+type urlInfo struct {
 	Date    string  `json:"date"`
 	Url     string  `json:"url"`
 	Title   string  `json:"title"`
@@ -58,7 +62,7 @@ type biteData struct {
 }
 
 type dataset struct {
-	Entry  biteData   `json:"entry"`
+	Entry  urlInfo    `json:"entry"`
 	Client clientInfo `json:"client"`
 }
 
@@ -67,7 +71,7 @@ type event struct {
 	Module string  `json:"module"`
 }
 
-type turkeyBite struct {
+type browserBeatData struct {
 	Date      time.Time   `json:"@timestamp"`
 	Processed time.Time   `json:"@processed"`
 	Host      hostnameObj `json:"host"`
