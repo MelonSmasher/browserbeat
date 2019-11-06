@@ -1,5 +1,4 @@
 BEAT_NAME=browserbeat
-BEAT_VERSION=0.0.1
 BEAT_PATH=github.com/MelonSmasher/browserbeat
 BEAT_GOPATH=$(firstword $(subst :, ,${GOPATH}))
 SYSTEM_TESTS=false
@@ -39,3 +38,9 @@ git-init:
 git-add:
 	git add -A
 	git commit -m "Add generated browserbeat files"
+
+BEAT_URL=https://${BEAT_PATH}
+#BEAT_VERSION=0.0.1
+#VERSION_QUALIFIER=alpha1
+#VERSION_GOFILEPATH=${BEAT_PATH}/version.go
+VERSION=0.0.1-alpha1
