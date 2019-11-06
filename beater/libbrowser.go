@@ -20,11 +20,7 @@ import (
 	"github.com/elastic/beats/libbeat/logp"
 )
 
-/**
-@todo refactor function names to so they are more easily understood
-@todo comment each function and explain what it does
- */
-
+// Returns a structured hostname object that contains the full FQDN and the short hostname
 func getHostname() hostnameObj {
 	var hn hostnameObj
 	name, err := os.Hostname()
@@ -42,6 +38,7 @@ func getHostname() hostnameObj {
 	return hn
 }
 
+// Returns all IPs for this machine that are not associated with loopbacks
 func getLocalIPs() []string {
 	var localIps []string
 	addrs, err := net.InterfaceAddrs()
@@ -59,6 +56,7 @@ func getLocalIPs() []string {
 	return localIps
 }
 
+// Lets us know if we're on Windows
 func isWindows() bool {
 	if runtime.GOOS == "windows" {
 		return true
@@ -66,6 +64,7 @@ func isWindows() bool {
 	return false
 }
 
+// Lets us know if we're on macOS
 func isMacos() bool {
 	if runtime.GOOS == "darwin" {
 		return true
@@ -73,6 +72,7 @@ func isMacos() bool {
 	return false
 }
 
+// Lets us know if we're on linux
 func isLinux() bool {
 	if runtime.GOOS == "linux" {
 		return true
@@ -80,18 +80,21 @@ func isLinux() bool {
 	return false
 }
 
+// Utility function to create a directory
 func mkDirP(path string) {
 	os.MkdirAll(path, os.ModePerm)
 }
 
+// Returns the path that should be used for working with the copied SQLite databases
 func getScratchPath(user string) string {
-	scratchPath := filepath.Join(os.TempDir(), "tbBrowser", user)
+	scratchPath := filepath.Join(os.TempDir(), "browserbeat", user)
 	mkDirP(scratchPath)
 	return scratchPath
 }
 
+// Removes and then creates a temp directory to copy each browser's database for each user
 func cleanScratchDir() {
-	baseScratchDir := filepath.Join(os.TempDir(), "tbBrowser")
+	baseScratchDir := filepath.Join(os.TempDir(), "browserbeat")
 	src, err := os.Stat(baseScratchDir)
 	if err == nil {
 		if src.IsDir() {
@@ -103,6 +106,7 @@ func cleanScratchDir() {
 	mkDirP(baseScratchDir)
 }
 
+// Utility function to determine if a string exists in an list
 func stringInSlice(a string, list []string) bool {
 	for _, b := range list {
 		if b == a {
@@ -112,6 +116,7 @@ func stringInSlice(a string, list []string) bool {
 	return false
 }
 
+// Returns all Firefox profiles in a user's Firefox data path
 func enumerateFirefoxProfiles(path string) []string {
 	var dirNames []string
 
@@ -132,6 +137,7 @@ func enumerateFirefoxProfiles(path string) []string {
 	return dirNames
 }
 
+// Reads user's from the home/users path on the filesystem
 func readUsers(path string) []string {
 	var dirNames []string
 	winBuiltinUsers := []string{"Default", "Default User", "Public", "All Users"}
@@ -163,18 +169,22 @@ func readUsers(path string) []string {
 	return dirNames
 }
 
+// Returns a list of Windows users
 func enumerateWindowsUsers() []string {
 	return readUsers("C:\\Users")
 }
 
+// Returns a list of macOS users
 func enumerateMacOSUsers() []string {
 	return readUsers("/Users")
 }
 
+// Returns a list of Linux users
 func enumerateLinuxUsers() []string {
 	return readUsers("/home")
 }
 
+// Returns a list of all users on the machine
 func enumerateUsers() []string {
 	if isWindows() {
 		return enumerateWindowsUsers()
@@ -187,6 +197,7 @@ func enumerateUsers() []string {
 	}
 }
 
+// Returns Chrome history DB paths for each user on the machine
 func getChromePaths(users []string) []userBrowserHistoryPath {
 	var paths []userBrowserHistoryPath
 	for _, user := range users {
@@ -214,6 +225,7 @@ func getChromePaths(users []string) []userBrowserHistoryPath {
 	return paths
 }
 
+// Returns Firefox history DB paths for each user on the machine
 func getFirefoxPaths(users []string) []userBrowserHistoryPath {
 	var paths []userBrowserHistoryPath
 	for _, user := range users {
@@ -251,6 +263,7 @@ func getFirefoxPaths(users []string) []userBrowserHistoryPath {
 	return paths
 }
 
+// Returns Safari history DB paths for each user on the machine
 func getSafariPaths(users []string) []userBrowserHistoryPath {
 	var paths []userBrowserHistoryPath
 	for _, user := range users {
@@ -274,6 +287,7 @@ func getSafariPaths(users []string) []userBrowserHistoryPath {
 	return paths
 }
 
+// Returns all browser history paths for each user on the machine
 func getBrowserHistoryPaths() systemBrowserHistoryPaths {
 	users := enumerateUsers()
 	histories := new(systemBrowserHistoryPaths)
@@ -283,6 +297,7 @@ func getBrowserHistoryPaths() systemBrowserHistoryPaths {
 	return *histories
 }
 
+// Copies a file to it's destination
 func copyFile(src string, dst string) (int64, error) {
 	sourceFileStat, err := os.Stat(src)
 	if err != nil {
@@ -305,6 +320,8 @@ func copyFile(src string, dst string) (int64, error) {
 	return nBytes, err
 }
 
+// Returns SQLite queries for each supported browser.
+// Each query returns all data in the target DB
 func getQueryMap() queryMap {
 	qMap := new(queryMap)
 	qMap.chrome = "SELECT datetime(last_visit_time/1000000-11644473600, 'unixepoch') as last_visited, url, title FROM urls;"
@@ -313,6 +330,8 @@ func getQueryMap() queryMap {
 	return *qMap
 }
 
+// Returns SQLite queries for each supported browser.
+// Each query returns data since the supplied timestamp.
 func getQueryMapSince(since string) queryMap {
 	qMap := new(queryMap)
 	qMap.chrome = "SELECT datetime(last_visit_time/1000000-11644473600, 'unixepoch') as last_visited, url, title FROM urls WHERE datetime(last_visit_time/1000000-11644473600, 'unixepoch') > datetime('" + since + "');"
@@ -321,18 +340,21 @@ func getQueryMapSince(since string) queryMap {
 	return *qMap
 }
 
-func copyHistory(src string, dst string, user string) (int64, error) {
+// Copies a file to the OS's tmp dir nested under a folder named after the target user
+func copyToScratch(src string, dst string, user string) (int64, error) {
 	// Ensure that our scratch path exists
 	getScratchPath(user)
 	return copyFile(src, dst)
 }
 
+// Helper function to check errors and panic if needed
 func checkErr(err error) {
 	if err != nil {
 		panic(err)
 	}
 }
 
+// Parses a URL and returns its components
 func extractUrlData(urlStr string) url.URL {
 	urlData, err := url.Parse(urlStr)
 	if err != nil {
@@ -342,7 +364,8 @@ func extractUrlData(urlStr string) url.URL {
 	return *urlData
 }
 
-func getHistoryData(file string, query string) []historyEntry {
+// Performs a query on the target SQLite DB and returns the history entries
+func getHistoryDataFromSqlite(file string, query string) []historyEntry {
 	var entries []historyEntry
 	db, err := sql.Open("sqlite3", file)
 	checkErr(err)
@@ -361,20 +384,28 @@ func getHistoryData(file string, query string) []historyEntry {
 	return entries
 }
 
-func storeReadState(browser string, user string, stamp string) {
+// Stores the timestamp of the last history entry from the current run for the target user => browser pair
+func storeUserBrowserState(browser string, user string, stamp string) {
 	mkDirP("states")
 	data := []byte(stamp)
 	err := ioutil.WriteFile(path.Join("states", browser+"_"+user+".state"), data, 0644)
 	checkErr(err)
 }
 
-func readBrowserState(browser string, user string) ([]byte, error) {
+// Reads the timestamp of the last history entry from the last run for the target user => browser pair
+func readUserBrowserState(browser string, user string) ([]byte, error) {
 	stamp, err := ioutil.ReadFile(path.Join("states", browser+"_"+user+".state"))
 	return stamp, err
 }
 
+// This function reads browser data for the target browser and returns it as an array
 func readBrowserData(browsers systemBrowserHistoryPaths, browser string, hn hostnameObj, ipAddresses []string) []browserBeatData {
+	// Init some vars
 	var browserData []userBrowserHistoryPath
+	var browserBeatDatas []browserBeatData
+	dateFormat := "2006-01-02 15:04:05"
+
+	// Chose the browser database paths based on the current browser
 	if browser == "chrome" {
 		browserData = browsers.chrome
 	} else if browser == "firefox" {
@@ -382,22 +413,27 @@ func readBrowserData(browsers systemBrowserHistoryPaths, browser string, hn host
 	} else if browser == "safari" {
 		browserData = browsers.safari
 	}
-	var bites []browserBeatData
-	dateFormat := "2006-01-02 15:04:05"
 
-	if len(browserData) > 0 {
+	if len(browserData) > 0 { // Are there any database => user pairs to go through?
+		// Loop through each dataset in the collection
 		for _, dataSet := range browserData {
-			stamp, err := readBrowserState(browser, dataSet.user)
+			// Try to read the date of the last history entry from our state file
+			stamp, err := readUserBrowserState(browser, dataSet.user)
+			// Init the query vars
 			query := ""
 			qMap := getQueryMap()
-			if err != nil {
+			if err != nil { // We got an error when reading the state file
+				// Set the SQL query to get all browser history
 				qMap = getQueryMap()
 				logp.Info("Sending all known " + browser + " history")
-			} else {
+			} else { // If we did not get an error when reading the state file
+				// Set the datetime stamp value
 				stamp := string(stamp)
+				// Change the SQL query strings to get history entries since the datetime stamp
 				qMap = getQueryMapSince(stamp)
 				logp.Info("Sending " + browser + " history since " + stamp)
 			}
+			// Based on our browser and the timestamp chose our SQL query
 			if browser == "chrome" {
 				query = qMap.chrome
 			} else if browser == "firefox" {
@@ -405,16 +441,25 @@ func readBrowserData(browsers systemBrowserHistoryPaths, browser string, hn host
 			} else if browser == "safari" {
 				query = qMap.safari
 			}
+
+			// For each history database path object in the dataset
 			for _, hist := range dataSet.paths {
-				copyHistory(hist.src, hist.dest, dataSet.user)
-				entries := getHistoryData(hist.dest, query)
+				// Copy the history to our scratch directory.
+				// We can't open the Sqlite DB if the browser has it locked.
+				// So we make a copy of it in the OS's temp dir
+				copyToScratch(hist.src, hist.dest, dataSet.user)
+				// Read the history entries from the copied Sqlite DB using the query we picked earlier
+				entries := getHistoryDataFromSqlite(hist.dest, query)
+				// Go through each history entry
 				for _, entry := range entries {
+					// Convert the history SQL datetime to a native Golang datetime
 					requestTime, err := time.Parse(dateFormat, entry.Date.String)
-					if err != nil {
+					if err != nil { // Fallback on the current datetime if we fail to convert
 						requestTime = time.Now()
 					}
 
-					bite := browserBeatData{
+					// Build the data object to be shipped by libbeat
+					entryData := browserBeatData{
 						requestTime,
 						time.Now(),
 						hn,
@@ -438,17 +483,20 @@ func readBrowserData(browsers systemBrowserHistoryPaths, browser string, hn host
 						},
 					}
 
-					bites = append(bites, bite)
-
+					// Append the structured history entry to the list that we return
+					browserBeatDatas = append(browserBeatDatas, entryData)
 				}
 			}
-			if len(bites) > 0 {
-				last := len(bites) - 1
-				lastBite := bites[last]
-				storeReadState(browser, dataSet.user, lastBite.Event.Data.Entry.Date)
+			// If we got some data from the DB.
+			// Store the datetime of that SQL entry for the next run so we can pick up where we left off.
+			if len(browserBeatDatas) > 0 {
+				lastIndex := len(browserBeatDatas) - 1
+				lastBrowserEntry := browserBeatDatas[lastIndex]
+				storeUserBrowserState(browser, dataSet.user, lastBrowserEntry.Event.Data.Entry.Date)
 			}
 		}
 	}
 
-	return bites
+	// Send the history entries array back
+	return browserBeatDatas
 }
