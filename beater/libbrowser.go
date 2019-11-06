@@ -20,6 +20,11 @@ import (
 	"github.com/elastic/beats/libbeat/logp"
 )
 
+/**
+@todo refactor function names to so they are more easily understood
+@todo comment each function and explain what it does
+ */
+
 func getHostname() hostnameObj {
 	var hn hostnameObj
 	name, err := os.Hostname()
