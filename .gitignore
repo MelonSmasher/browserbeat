@@ -4,3 +4,4 @@
 /browserbeat
 /browserbeat.test
 *.pyc
+build/
