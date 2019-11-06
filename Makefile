@@ -47,3 +47,6 @@ VERSION=${BEAT_VERSION}-${VERSION_QUALIFIER}
 
 set_version: ## @packaging VERSION=x.y.z set the version of the beat to x.y.z
 	dev-tools/set_version ${VERSION}
+
+tag:
+	$(shell git tag v${VERSION})
