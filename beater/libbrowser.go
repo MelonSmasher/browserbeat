@@ -3,8 +3,6 @@ package beater
 import (
 	"database/sql"
 	"fmt"
-	"github.com/elastic/beats/libbeat/logp"
-	_ "github.com/mattn/go-sqlite3"
 	"io"
 	"io/ioutil"
 	"log"
@@ -16,6 +14,10 @@ import (
 	"runtime"
 	"strings"
 	"time"
+
+	_ "github.com/mattn/go-sqlite3"
+
+	"github.com/elastic/beats/libbeat/logp"
 )
 
 func getHostname() hostnameObj {

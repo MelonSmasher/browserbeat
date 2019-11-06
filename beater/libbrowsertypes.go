@@ -2,11 +2,11 @@ package beater
 
 import (
 	"database/sql"
-	_ "github.com/mattn/go-sqlite3"
 	"net/url"
 	"time"
-)
 
+	_ "github.com/mattn/go-sqlite3"
+)
 
 type srcAndDestPaths struct {
 	src  string
