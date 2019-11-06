@@ -10,7 +10,6 @@ GOBUILD_FLAGS=-i -ldflags "-X $(BEAT_PATH)/vendor/github.com/elastic/beats/libbe
 MAGE_IMPORT_PATH=${BEAT_PATH}/vendor/github.com/magefile/mage
 NO_COLLECT=true
 CHECK_HEADERS_DISABLED=true
-BEAT_URL=https://${BEAT_PATH}
 
 # Path to the libbeat Makefile
 -include $(LIBBEAT_MAKEFILE)
@@ -39,3 +38,12 @@ git-init:
 git-add:
 	git add -A
 	git commit -m "Add generated browserbeat files"
+
+BEAT_URL=https://${BEAT_PATH}
+BEAT_VERSION=0.0.1
+VERSION_QUALIFIER=alpha1
+VERSION_GOFILEPATH=${BEAT_PATH}/version/version.go
+VERSION=${BEAT_VERSION}-${VERSION_QUALIFIER}
+
+set_version: ## @packaging VERSION=x.y.z set the version of the beat to x.y.z
+	dev-tools/set_version ${VERSION}
