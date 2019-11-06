@@ -1,4 +1,5 @@
 BEAT_NAME=browserbeat
+BEAT_VERSION=0.0.1
 BEAT_PATH=github.com/MelonSmasher/browserbeat
 BEAT_GOPATH=$(firstword $(subst :, ,${GOPATH}))
 SYSTEM_TESTS=false

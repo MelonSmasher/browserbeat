@@ -34,8 +34,9 @@ import (
 func init() {
 	devtools.SetBuildVariableSources(devtools.DefaultBeatBuildVariableSources)
 
-	devtools.BeatDescription = "One sentence description of the Beat."
+	devtools.BeatDescription = "Sends browser history (Chrome, Firefox, & Safari) to an Elastic output."
 	devtools.BeatVendor = "Alex Markessinis"
+	devtools.BeatURL = "https://github.com/MelonSmasher/browserbeat"
 }
 
 // Build builds the Beat binary.
