@@ -2,6 +2,62 @@
 
 Welcome to Browserbeat.
 
+Browserbeat is a lightweight passive solution for web traffic monitoring. Browserbeat gives sysadmins the ability to monitor web traffic on managed computers without an HTTP proxy, packet capture, or DNS server logs.
+
+## Browserbeat compared to:
+
+### DNS server logs
+
+* Data obtained by Browserbeat is much less noisy than DNS traffic since traffic created by system services and other protocols will show up in DNS server logs.
+* You will know if the browser has visited an IP address directly.
+* You'll know the user who made the request not just the client IP
+* You'll know the web browser used to make the request
+* You'll know the operating system used to make the request
+
+### HTTP proxy
+
+* No need to distribute custom certs to monitor HTTPS traffic
+* You'll know the user who made the request not just the client IP
+* If Browserbeat or the output fails, the user's browsing is not interrupted like if a proxy server goes down
+* Less complexity on your network
+ 
+### Packet Sniffing/Capture
+
+* You'll know the user who made the request not just the client IP
+* Less complexity on your network
+* Depending on the method used for packet sniffing, the user's browsing is not interrupted if a component fails
+
+## Features
+
+* Know the user who made the request
+* Know the IP of the computer
+* Know the hostname of the computer
+* Know the requested hostname
+* Know the URL requested
+* Know the title of the website
+* Know the date & time the request was made
+* Know the host OS
+* Know the browser that made the request
+* Cross-platform support: Windows, macOS, and Linux
+* Cross-browser support: Chrome, Firefox, and Safari
+* Output data to all of the standard Elastic Beat outputs
+
+### Browser Support
+
+* Chrome :white_check_mark: - Done
+* Firefox :white_check_mark: - Done
+* Safari :white_check_mark: - Done
+* Chromium - Should be similar to Chrome
+* Opera - Haven't investigated yet
+* Vivaldi - Haven't investigated yet
+* Edge :sos: - M$ is too cool and uses an ESE database anyone know of an ESE DB library for go?
+* IE 11 :sos: - M$ is too cool and uses an ESE database anyone know of an ESE DB library for go?
+* Chrome Canary - Should be similar to Chrome
+
+Feel free to suggest more browsers.
+
+# Development
+
 Ensure that this folder is at the following location:
 `${GOPATH}/src/github.com/MelonSmasher/browserbeat`
 
