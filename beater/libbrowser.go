@@ -386,15 +386,15 @@ func getHistoryDataFromSqlite(file string, query string) []historyEntry {
 
 // Stores the timestamp of the last history entry from the current run for the target user => browser pair
 func storeUserBrowserState(browser string, user string, stamp string) {
-	mkDirP("states")
+	mkDirP(path.Join("data", "states"))
 	data := []byte(stamp)
-	err := ioutil.WriteFile(path.Join("states", browser+"_"+user+".state"), data, 0644)
+	err := ioutil.WriteFile(path.Join("data", "states", browser+"_"+user+".state"), data, 0644)
 	checkErr(err)
 }
 
 // Reads the timestamp of the last history entry from the last run for the target user => browser pair
 func readUserBrowserState(browser string, user string) ([]byte, error) {
-	stamp, err := ioutil.ReadFile(path.Join("states", browser+"_"+user+".state"))
+	stamp, err := ioutil.ReadFile(path.Join("data", "states", browser+"_"+user+".state"))
 	return stamp, err
 }
 

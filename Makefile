@@ -50,3 +50,7 @@ set_version: ## @packaging VERSION=x.y.z set the version of the beat to x.y.z
 
 tag:
 	$(shell git tag v${VERSION})
+
+# Ugly AF
+pack:
+	$(shell BEAT_VERSION=${BEAT_VERSION} VERSION_QUALIFIER=${VERSION_QUALIFIER} VERSION=${VERSION} make release BEAT_VERSION=${BEAT_VERSION} VERSION_QUALIFIER=${VERSION_QUALIFIER} VERSION=${VERSION})
