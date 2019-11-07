@@ -39,18 +39,23 @@ git-add:
 	git add -A
 	git commit -m "Add generated browserbeat files"
 
-BEAT_URL=https://${BEAT_PATH}
+
 BEAT_VERSION=0.0.1
 VERSION_QUALIFIER=alpha1
-VERSION_GOFILEPATH=${BEAT_PATH}/version/version.go
-VERSION=${BEAT_VERSION}-${VERSION_QUALIFIER}
 
-set_version: ## @packaging VERSION=x.y.z set the version of the beat to x.y.z
+VERSION=${BEAT_VERSION}-${VERSION_QUALIFIER}
+VERSION_GOFILEPATH=${BEAT_PATH}/version/version.go
+
+BEAT_URL=https://${BEAT_PATH}
+
+## @packaging VERSION=x.y.z set the version of the beat to x.y.z
+## Override the built in set_version cmd
+set_version:
 	dev-tools/set_version ${VERSION}
+	$(shell cp ./pack.sh.example ./pack.sh)
+	$(shell chmod +x ./pack.sh)
+	$(shell sed -i 's/0.0.0/${BEAT_VERSION}/g' ./pack.sh)
+	$(shell sed -i 's/alpha/${VERSION_QUALIFIER}/g' ./pack.sh)
 
 tag:
 	$(shell git tag v${VERSION})
-
-# Ugly AF
-pack:
-	$(shell BEAT_VERSION=${BEAT_VERSION} VERSION_QUALIFIER=${VERSION_QUALIFIER} VERSION=${VERSION} make release BEAT_VERSION=${BEAT_VERSION} VERSION_QUALIFIER=${VERSION_QUALIFIER} VERSION=${VERSION})

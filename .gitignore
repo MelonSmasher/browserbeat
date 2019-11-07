@@ -5,3 +5,4 @@
 /browserbeat.test
 *.pyc
 build/
+pack.sh
