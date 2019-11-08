@@ -16,8 +16,6 @@ import (
 	"time"
 
 	_ "github.com/mattn/go-sqlite3"
-
-	"github.com/elastic/beats/libbeat/logp"
 )
 
 // Returns a structured hostname object that contains the full FQDN and the short hostname
@@ -232,7 +230,7 @@ func getFirefoxPaths(users []string) []userBrowserHistoryPath {
 		var userPath string
 
 		if isWindows() {
-			userPath = filepath.Join("C:", "Users", user, "AppData", "Roaming", "Mozilla", "Firefox", "Profiles")
+			userPath = filepath.Join("C:\\", "Users", user, "AppData", "Roaming", "Mozilla", "Firefox", "Profiles")
 		} else if isMacos() {
 			userPath = filepath.Join("/Users", user, "Library", "Application Support", "Firefox", "Profiles")
 		} else if isLinux() {
@@ -425,13 +423,11 @@ func readBrowserData(browsers systemBrowserHistoryPaths, browser string, hn host
 			if err != nil { // We got an error when reading the state file
 				// Set the SQL query to get all browser history
 				qMap = getQueryMap()
-				logp.Info("Sending all known " + browser + " history")
 			} else { // If we did not get an error when reading the state file
 				// Set the datetime stamp value
 				stamp := string(stamp)
 				// Change the SQL query strings to get history entries since the datetime stamp
 				qMap = getQueryMapSince(stamp)
-				logp.Info("Sending " + browser + " history since " + stamp)
 			}
 			// Based on our browser and the timestamp chose our SQL query
 			if browser == "chrome" {
