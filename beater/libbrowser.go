@@ -223,6 +223,108 @@ func getChromePaths(users []string) []userBrowserHistoryPath {
 	return paths
 }
 
+// Returns Chrome Beta history DB paths for each user on the machine
+func getChromeBetaPaths(users []string) []userBrowserHistoryPath {
+	var paths []userBrowserHistoryPath
+	for _, user := range users {
+		var userPath string
+		if isLinux() {
+			userPath = filepath.Join("/home", user, ".config", "google-chrome-beta", "Default", "History")
+		}
+		if stat, err := os.Stat(userPath); err == nil {
+			if !stat.IsDir() {
+				srcDestMap := new(srcAndDestPaths)
+				srcDestMap.src = userPath
+				srcDestMap.dest = filepath.Join(getScratchPath(user), "chrome-beta.sqlite")
+
+				ubhp := new(userBrowserHistoryPath)
+				ubhp.user = user
+				ubhp.paths = []srcAndDestPaths{*srcDestMap}
+				paths = append(paths, *ubhp)
+			}
+		}
+	}
+	return paths
+}
+
+// Returns Chrome Unstable history DB paths for each user on the machine
+func getChromeDevPaths(users []string) []userBrowserHistoryPath {
+	var paths []userBrowserHistoryPath
+	for _, user := range users {
+		var userPath string
+		if isLinux() {
+			userPath = filepath.Join("/home", user, ".config", "google-chrome-unstable", "Default", "History")
+		}
+		if stat, err := os.Stat(userPath); err == nil {
+			if !stat.IsDir() {
+				srcDestMap := new(srcAndDestPaths)
+				srcDestMap.src = userPath
+				srcDestMap.dest = filepath.Join(getScratchPath(user), "chrome-unstable.sqlite")
+
+				ubhp := new(userBrowserHistoryPath)
+				ubhp.user = user
+				ubhp.paths = []srcAndDestPaths{*srcDestMap}
+				paths = append(paths, *ubhp)
+			}
+		}
+	}
+	return paths
+}
+
+// Returns Chrome Canary history DB paths for each user on the machine
+func getChromeCanaryPaths(users []string) []userBrowserHistoryPath {
+	var paths []userBrowserHistoryPath
+	for _, user := range users {
+		var userPath string
+		if isWindows() {
+			userPath = filepath.Join("C:\\", "Users", user, "AppData", "Local", "Google", "Chrome SxS", "User Data", "Default", "History")
+		} else if isMacos() {
+			userPath = filepath.Join("/Users", user, "Library", "Application Support", "Google", "Chrome Canary", "Default", "History")
+		}
+		if stat, err := os.Stat(userPath); err == nil {
+			if !stat.IsDir() {
+				srcDestMap := new(srcAndDestPaths)
+				srcDestMap.src = userPath
+				srcDestMap.dest = filepath.Join(getScratchPath(user), "chrome-canary.sqlite")
+
+				ubhp := new(userBrowserHistoryPath)
+				ubhp.user = user
+				ubhp.paths = []srcAndDestPaths{*srcDestMap}
+				paths = append(paths, *ubhp)
+			}
+		}
+	}
+	return paths
+}
+
+// Returns Chromium history DB paths for each user on the machine
+func getChromiumPaths(users []string) []userBrowserHistoryPath {
+	var paths []userBrowserHistoryPath
+	for _, user := range users {
+		var userPath string
+		if isWindows() {
+			userPath = filepath.Join("C:\\", "Users", user, "AppData", "Local", "Chromium", "User Data", "Default", "History")
+		} else if isMacos() {
+			userPath = filepath.Join("/Users", user, "Library", "Application Support", "Chromium", "Default", "History")
+		} else if isLinux() {
+			userPath = filepath.Join("/home", user, ".config", "chromium", "Default", "History")
+		}
+		if stat, err := os.Stat(userPath); err == nil {
+			if !stat.IsDir() {
+				srcDestMap := new(srcAndDestPaths)
+				srcDestMap.src = userPath
+				srcDestMap.dest = filepath.Join(getScratchPath(user), "chromium.sqlite")
+
+				ubhp := new(userBrowserHistoryPath)
+				ubhp.user = user
+				ubhp.paths = []srcAndDestPaths{*srcDestMap}
+				paths = append(paths, *ubhp)
+			}
+		}
+	}
+	return paths
+}
+
 // Returns Firefox history DB paths for each user on the machine
 func getFirefoxPaths(users []string) []userBrowserHistoryPath {
 	var paths []userBrowserHistoryPath
@@ -290,6 +392,10 @@ func getBrowserHistoryPaths() systemBrowserHistoryPaths {
 	users := enumerateUsers()
 	histories := new(systemBrowserHistoryPaths)
 	histories.chrome = getChromePaths(users)
+	histories.chromium = getChromiumPaths(users)
+	histories.chromeCanary = getChromeCanaryPaths(users)
+	histories.chromeBeta = getChromeBetaPaths(users)
+	histories.chromeDev = getChromeDevPaths(users)
 	histories.firefox = getFirefoxPaths(users)
 	histories.safari = getSafariPaths(users)
 	return *histories
@@ -382,6 +488,29 @@ func getHistoryDataFromSqlite(file string, query string) []historyEntry {
 	return entries
 }
 
+// Returns the browser data paths for this machine and target browser combo
+func chooseBrowserDataPath(browser string, browsers systemBrowserHistoryPaths) []userBrowserHistoryPath {
+	var none []userBrowserHistoryPath
+	switch browser {
+	case "chrome":
+		return browsers.chrome
+	case "firefox":
+		return browsers.firefox
+	case "safari":
+		return browsers.safari
+	case "chromium":
+		return browsers.chromium
+	case "chrome-canary":
+		return browsers.chromeCanary
+	case "chrome-beta":
+		return browsers.chromeBeta
+	case "chrome-dev":
+		return browsers.chromeDev
+	default:
+		return none
+	}
+}
+
 // Stores the timestamp of the last history entry from the current run for the target user => browser pair
 func storeUserBrowserState(browser string, user string, stamp string) {
 	mkDirP(path.Join("data", "states"))
@@ -402,15 +531,11 @@ func readBrowserData(browsers systemBrowserHistoryPaths, browser string, hn host
 	var browserData []userBrowserHistoryPath
 	var browserBeatDatas []browserBeatData
 	dateFormat := "2006-01-02 15:04:05"
+	// Chrome based browsers
+	chromes := []string{"chrome", "chromium", "chrome-canary", "chrome-beta", "chrome-dev"}
 
 	// Chose the browser database paths based on the current browser
-	if browser == "chrome" {
-		browserData = browsers.chrome
-	} else if browser == "firefox" {
-		browserData = browsers.firefox
-	} else if browser == "safari" {
-		browserData = browsers.safari
-	}
+	browserData = chooseBrowserDataPath(browser, browsers)
 
 	if len(browserData) > 0 { // Are there any database => user pairs to go through?
 		// Loop through each dataset in the collection
@@ -429,8 +554,9 @@ func readBrowserData(browsers systemBrowserHistoryPaths, browser string, hn host
 				// Change the SQL query strings to get history entries since the datetime stamp
 				qMap = getQueryMapSince(stamp)
 			}
+
 			// Based on our browser and the timestamp chose our SQL query
-			if browser == "chrome" {
+			if stringInSlice(browser, chromes) {
 				query = qMap.chrome
 			} else if browser == "firefox" {
 				query = qMap.firefox
