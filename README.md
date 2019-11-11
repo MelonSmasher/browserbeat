@@ -51,8 +51,8 @@ Browserbeat is a lightweight passive solution for web traffic monitoring. Browse
 * :white_check_mark: Chrome Canary - Done
     * :white_check_mark: Chrome Beta (linux) - Done
     * :white_check_mark: Chrome Dev (linux) - Done
+* :white_check_mark: Vivaldi - Done
 * :yellow_heart: Opera - Haven't investigated yet
-* :yellow_heart: Vivaldi - Haven't investigated yet
 * :yellow_heart: K-Meleon - Haven't investigated yet
 * :yellow_heart: Brave - Haven't investigated yet
 * :yellow_heart: Epic - Haven't investigated yet

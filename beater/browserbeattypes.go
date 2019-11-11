@@ -30,6 +30,7 @@ type systemBrowserHistoryPaths struct {
 	chromeDev    []userBrowserHistoryPath
 	firefox      []userBrowserHistoryPath
 	safari       []userBrowserHistoryPath
+	vivaldi      []userBrowserHistoryPath
 }
 
 type queryMap struct {
