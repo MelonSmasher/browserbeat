@@ -50,6 +50,7 @@ func (bt *Browserbeat) Run(b *beat.Beat) error {
 		"chromium",
 		"firefox",
 		"safari",
+		"vivaldi",
 	}
 
 	for {
