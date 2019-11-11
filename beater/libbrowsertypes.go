@@ -26,6 +26,7 @@ type systemBrowserHistoryPaths struct {
 	chrome  []userBrowserHistoryPath
 	firefox []userBrowserHistoryPath
 	safari  []userBrowserHistoryPath
+	chromium []userBrowserHistoryPath
 }
 
 type queryMap struct {

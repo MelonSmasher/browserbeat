@@ -40,7 +40,7 @@ git-add:
 	git commit -m "Add generated browserbeat files"
 
 
-BEAT_VERSION=0.0.2
+BEAT_VERSION=0.0.3
 VERSION_QUALIFIER=alpha1
 
 VERSION=${BEAT_VERSION}-${VERSION_QUALIFIER}

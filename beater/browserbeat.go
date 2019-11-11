@@ -64,7 +64,7 @@ func (bt *Browserbeat) Run(b *beat.Beat) error {
 
 		//********************************* Begin main loop ***********************************************************/
 		// Loop for each supported browser
-		for _, browser := range []string{"chrome", "firefox", "safari"} {
+		for _, browser := range []string{"chrome", "firefox", "safari", "chromium"} {
 			// Read the current target browser's data base for each user on the machine
 			events := readBrowserData(browsers, browser, hn, ipAddresses)
 			// Loop through all of the browser history events
