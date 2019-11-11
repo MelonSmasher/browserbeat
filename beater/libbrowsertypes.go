@@ -23,10 +23,13 @@ type userBrowserHistoryPath struct {
 }
 
 type systemBrowserHistoryPaths struct {
-	chrome  []userBrowserHistoryPath
-	firefox []userBrowserHistoryPath
-	safari  []userBrowserHistoryPath
-	chromium []userBrowserHistoryPath
+	chrome       []userBrowserHistoryPath
+	chromium     []userBrowserHistoryPath
+	chromeCanary []userBrowserHistoryPath
+	chromeBeta   []userBrowserHistoryPath
+	chromeDev    []userBrowserHistoryPath
+	firefox      []userBrowserHistoryPath
+	safari       []userBrowserHistoryPath
 }
 
 type queryMap struct {

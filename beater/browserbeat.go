@@ -41,6 +41,16 @@ func (bt *Browserbeat) Run(b *beat.Beat) error {
 		return err
 	}
 	ticker := time.NewTicker(bt.config.Period)
+	// A list of supported browsers
+	browserNames := []string{
+		"chrome",
+		"chrome-canary",
+		"chrome-beta",
+		"chrome-dev",
+		"chromium",
+		"firefox",
+		"safari",
+	}
 
 	for {
 		select {
@@ -64,7 +74,7 @@ func (bt *Browserbeat) Run(b *beat.Beat) error {
 
 		//********************************* Begin main loop ***********************************************************/
 		// Loop for each supported browser
-		for _, browser := range []string{"chrome", "firefox", "safari", "chromium"} {
+		for _, browser := range browserNames {
 			// Read the current target browser's data base for each user on the machine
 			events := readBrowserData(browsers, browser, hn, ipAddresses)
 			// Loop through all of the browser history events

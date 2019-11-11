@@ -223,6 +223,80 @@ func getChromePaths(users []string) []userBrowserHistoryPath {
 	return paths
 }
 
+// Returns Chrome Beta history DB paths for each user on the machine
+func getChromeBetaPaths(users []string) []userBrowserHistoryPath {
+	var paths []userBrowserHistoryPath
+	for _, user := range users {
+		var userPath string
+		if isLinux() {
+			userPath = filepath.Join("/home", user, ".config", "google-chrome-beta", "Default", "History")
+		}
+		if stat, err := os.Stat(userPath); err == nil {
+			if !stat.IsDir() {
+				srcDestMap := new(srcAndDestPaths)
+				srcDestMap.src = userPath
+				srcDestMap.dest = filepath.Join(getScratchPath(user), "chrome-beta.sqlite")
+
+				ubhp := new(userBrowserHistoryPath)
+				ubhp.user = user
+				ubhp.paths = []srcAndDestPaths{*srcDestMap}
+				paths = append(paths, *ubhp)
+			}
+		}
+	}
+	return paths
+}
+
+// Returns Chrome Unstable history DB paths for each user on the machine
+func getChromeDevPaths(users []string) []userBrowserHistoryPath {
+	var paths []userBrowserHistoryPath
+	for _, user := range users {
+		var userPath string
+		if isLinux() {
+			userPath = filepath.Join("/home", user, ".config", "google-chrome-unstable", "Default", "History")
+		}
+		if stat, err := os.Stat(userPath); err == nil {
+			if !stat.IsDir() {
+				srcDestMap := new(srcAndDestPaths)
+				srcDestMap.src = userPath
+				srcDestMap.dest = filepath.Join(getScratchPath(user), "chrome-unstable.sqlite")
+
+				ubhp := new(userBrowserHistoryPath)
+				ubhp.user = user
+				ubhp.paths = []srcAndDestPaths{*srcDestMap}
+				paths = append(paths, *ubhp)
+			}
+		}
+	}
+	return paths
+}
+
+// Returns Chrome Canary history DB paths for each user on the machine
+func getChromeCanaryPaths(users []string) []userBrowserHistoryPath {
+	var paths []userBrowserHistoryPath
+	for _, user := range users {
+		var userPath string
+		if isWindows() {
+			userPath = filepath.Join("C:\\", "Users", user, "AppData", "Local", "Google", "Chrome SxS", "User Data", "Default", "History")
+		} else if isMacos() {
+			userPath = filepath.Join("/Users", user, "Library", "Application Support", "Google", "Chrome Canary", "Default", "History")
+		}
+		if stat, err := os.Stat(userPath); err == nil {
+			if !stat.IsDir() {
+				srcDestMap := new(srcAndDestPaths)
+				srcDestMap.src = userPath
+				srcDestMap.dest = filepath.Join(getScratchPath(user), "chrome-canary.sqlite")
+
+				ubhp := new(userBrowserHistoryPath)
+				ubhp.user = user
+				ubhp.paths = []srcAndDestPaths{*srcDestMap}
+				paths = append(paths, *ubhp)
+			}
+		}
+	}
+	return paths
+}
+
 // Returns Chromium history DB paths for each user on the machine
 func getChromiumPaths(users []string) []userBrowserHistoryPath {
 	var paths []userBrowserHistoryPath
@@ -318,9 +392,12 @@ func getBrowserHistoryPaths() systemBrowserHistoryPaths {
 	users := enumerateUsers()
 	histories := new(systemBrowserHistoryPaths)
 	histories.chrome = getChromePaths(users)
+	histories.chromium = getChromiumPaths(users)
+	histories.chromeCanary = getChromeCanaryPaths(users)
+	histories.chromeBeta = getChromeBetaPaths(users)
+	histories.chromeDev = getChromeDevPaths(users)
 	histories.firefox = getFirefoxPaths(users)
 	histories.safari = getSafariPaths(users)
-	histories.chromium = getChromiumPaths(users)
 	return *histories
 }
 
@@ -423,6 +500,12 @@ func chooseBrowserDataPath(browser string, browsers systemBrowserHistoryPaths) [
 		return browsers.safari
 	case "chromium":
 		return browsers.chromium
+	case "chrome-canary":
+		return browsers.chromeCanary
+	case "chrome-beta":
+		return browsers.chromeBeta
+	case "chrome-dev":
+		return browsers.chromeDev
 	default:
 		return none
 	}
@@ -449,7 +532,7 @@ func readBrowserData(browsers systemBrowserHistoryPaths, browser string, hn host
 	var browserBeatDatas []browserBeatData
 	dateFormat := "2006-01-02 15:04:05"
 	// Chrome based browsers
-	chromes := []string{"chrome", "chromium"}
+	chromes := []string{"chrome", "chromium", "chrome-canary", "chrome-beta", "chrome-dev"}
 
 	// Chose the browser database paths based on the current browser
 	browserData = chooseBrowserDataPath(browser, browsers)
