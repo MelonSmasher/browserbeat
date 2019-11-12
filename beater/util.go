@@ -183,3 +183,12 @@ func getChromes() []string {
 		"opera",
 	}
 }
+
+// Returns a list of firefox based browsers
+// The following browsers have the same history db schema thus the same query is used
+func getFirefoxes() []string {
+	return []string{
+		"firefox",
+		"k-meleon",
+	}
+}

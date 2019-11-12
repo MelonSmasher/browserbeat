@@ -18,6 +18,7 @@ func getBrowserHistoryPaths() systemBrowserHistoryPaths {
 	histories.safari = getSafariPaths(users)
 	histories.vivaldi = getVivaldiPaths(users)
 	histories.opera = getOperaPaths(users)
+	histories.kmeleon = getKmeleonPaths(users)
 	return *histories
 }
 
@@ -43,6 +44,8 @@ func chooseBrowserDataPath(browser string, browsers systemBrowserHistoryPaths) [
 		return browsers.vivaldi
 	case "opera":
 		return browsers.opera
+	case "k-meleon":
+		return browsers.kmeleon
 	default:
 		return none
 	}
@@ -56,6 +59,8 @@ func readBrowserData(browsers systemBrowserHistoryPaths, browser string, hn host
 	dateFormat := "2006-01-02 15:04:05"
 	// Chrome based browsers
 	chromes := getChromes()
+	// Firefox based browsers
+	firefoxes := getFirefoxes()
 
 	// Chose the browser database paths based on the current browser
 	browserData = chooseBrowserDataPath(browser, browsers)
@@ -81,7 +86,7 @@ func readBrowserData(browsers systemBrowserHistoryPaths, browser string, hn host
 			// Based on our browser and the timestamp chose our SQL query
 			if stringInSlice(browser, chromes) {
 				query = qMap.chrome
-			} else if browser == "firefox" {
+			} else if stringInSlice(browser, firefoxes) {
 				query = qMap.firefox
 			} else if browser == "safari" {
 				query = qMap.safari

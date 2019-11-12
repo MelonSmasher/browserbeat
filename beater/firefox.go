@@ -7,7 +7,7 @@ import (
 )
 
 // Returns all Firefox profiles in a user's Firefox data path
-func enumerateFirefoxProfiles(path string) []string {
+func enumerateFFBrowserProfiles(path string) []string {
 	var dirNames []string
 
 	file, err := os.Open(path)
@@ -43,7 +43,7 @@ func getFirefoxPaths(users []string) []userBrowserHistoryPath {
 		if stat, err := os.Stat(userPath); err == nil {
 			var fullPaths []srcAndDestPaths
 			if stat.IsDir() {
-				profiles := enumerateFirefoxProfiles(userPath)
+				profiles := enumerateFFBrowserProfiles(userPath)
 				for _, profile := range profiles {
 					p := filepath.Join(userPath, profile, "places.sqlite")
 					if pStat, err := os.Stat(p); err == nil {

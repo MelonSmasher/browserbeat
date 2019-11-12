@@ -52,6 +52,7 @@ func (bt *Browserbeat) Run(b *beat.Beat) error {
 		"safari",
 		"vivaldi",
 		"opera",
+		"k-meleon",
 	}
 
 	for {
