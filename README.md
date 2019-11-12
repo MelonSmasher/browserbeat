@@ -39,20 +39,24 @@ Browserbeat is a lightweight passive solution for web traffic monitoring. Browse
 * Know the host OS
 * Know the browser that made the request
 * Cross-platform support: Windows, macOS, and Linux
-* Cross-browser support: Chrome, Firefox, and Safari
+* Cross-browser support: see list below
 * Output data to all of the standard Elastic Beat outputs
 
 ### Browser Support
 
-* :white_check_mark: Chrome - Done
-* :white_check_mark: Firefox - Done
-* :white_check_mark: Safari - Done
-* :yellow_heart: Chromium - Should be similar to Chrome
-* :yellow_heart: Opera - Haven't investigated yet
-* :yellow_heart: Vivaldi - Haven't investigated yet
+* :white_check_mark: Chrome (All) - Done
+    * :white_check_mark: Chrome Canary (Windows & macOS) - Done
+    * :white_check_mark: Chrome Beta (linux) - Done
+    * :white_check_mark: Chrome Dev (linux) - Done
+* :white_check_mark: Chromium (All) - Done
+* :white_check_mark: Firefox (All) - Done
+* :white_check_mark: Safari (macOS) - Done
+* :white_check_mark: Vivaldi (All) - Done
+* :white_check_mark: Opera (All) - Done
+* :white_check_mark: K-Meleon (Windows) - Done
+* :white_check_mark: Brave (All) - Done
 * :sos: Edge - M$ is too cool and uses an ESE database anyone know of an ESE DB library for go?
 * :sos: IE 11 - M$ is too cool and uses an ESE database anyone know of an ESE DB library for go?
-* :yellow_heart: Chrome Canary - Should be similar to Chrome
 
 Feel free to suggest more browsers.
 
