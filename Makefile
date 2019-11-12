@@ -40,8 +40,8 @@ git-add:
 	git commit -m "Add generated browserbeat files"
 
 
-BEAT_VERSION=0.0.3
-VERSION_QUALIFIER=alpha2
+BEAT_VERSION=0.0.4
+VERSION_QUALIFIER=alpha4
 
 VERSION=${BEAT_VERSION}-${VERSION_QUALIFIER}
 VERSION_GOFILEPATH=${BEAT_PATH}/version/version.go
