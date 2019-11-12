@@ -17,6 +17,7 @@ func getBrowserHistoryPaths() systemBrowserHistoryPaths {
 	histories.firefox = getFirefoxPaths(users)
 	histories.safari = getSafariPaths(users)
 	histories.vivaldi = getVivaldiPaths(users)
+	histories.opera = getOperaPaths(users)
 	return *histories
 }
 
@@ -40,6 +41,8 @@ func chooseBrowserDataPath(browser string, browsers systemBrowserHistoryPaths) [
 		return browsers.chromeDev
 	case "vivaldi":
 		return browsers.vivaldi
+	case "opera":
+		return browsers.opera
 	default:
 		return none
 	}
@@ -52,7 +55,7 @@ func readBrowserData(browsers systemBrowserHistoryPaths, browser string, hn host
 	var browserBeatDatas []browserBeatData
 	dateFormat := "2006-01-02 15:04:05"
 	// Chrome based browsers
-	chromes := []string{"chrome", "chromium", "chrome-canary", "chrome-beta", "chrome-dev", "vivaldi"}
+	chromes := getChromes()
 
 	// Chose the browser database paths based on the current browser
 	browserData = chooseBrowserDataPath(browser, browsers)

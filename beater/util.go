@@ -169,3 +169,17 @@ func readUserBrowserState(browser string, user string) ([]byte, error) {
 	stamp, err := ioutil.ReadFile(path.Join("data", "states", browser+"_"+user+".state"))
 	return stamp, err
 }
+
+// Returns a list of chrome based browsers
+// The following browsers have the same history db schema thus the same query is used
+func getChromes() []string {
+	return []string{
+		"chrome",
+		"chromium",
+		"chrome-canary",
+		"chrome-beta",
+		"chrome-dev",
+		"vivaldi",
+		"opera",
+	}
+}

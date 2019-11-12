@@ -6,22 +6,22 @@ import (
 )
 
 // Returns Chromium history DB paths for each user on the machine
-func getVivaldiPaths(users []string) []userBrowserHistoryPath {
+func getOperaPaths(users []string) []userBrowserHistoryPath {
 	var paths []userBrowserHistoryPath
 	for _, user := range users {
 		var userPath string
 		if isWindows() {
-			userPath = filepath.Join("C:\\", "Users", user, "AppData", "Local", "Vivaldi", "User Data", "Default", "History")
+			userPath = filepath.Join("C:\\", "Users", user, "AppData", "Roaming", "Opera Software", "Opera Stable", "History")
 		} else if isMacos() {
-			userPath = filepath.Join("/Users", user, "Library", "Application Support", "Vivaldi", "Default", "History")
+			userPath = filepath.Join("/Users", user, "Library", "Application Support", "com.operasoftware.Opera", "History")
 		} else if isLinux() {
-			userPath = filepath.Join("/home", user, ".config", "vivaldi", "Default", "History")
+			userPath = filepath.Join("/home", user, ".config", "opera", "Default", "History")
 		}
 		if stat, err := os.Stat(userPath); err == nil {
 			if !stat.IsDir() {
 				srcDestMap := new(srcAndDestPaths)
 				srcDestMap.src = userPath
-				srcDestMap.dest = filepath.Join(getScratchPath(user), "vivaldi.sqlite")
+				srcDestMap.dest = filepath.Join(getScratchPath(user), "opera.sqlite")
 
 				ubhp := new(userBrowserHistoryPath)
 				ubhp.user = user
