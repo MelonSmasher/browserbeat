@@ -39,7 +39,7 @@ Browserbeat is a lightweight passive solution for web traffic monitoring. Browse
 * Know the host OS
 * Know the browser that made the request
 * Cross-platform support: Windows, macOS, and Linux
-* Cross-browser support: Chrome, Firefox, and Safari
+* Cross-browser support: see list below
 * Output data to all of the standard Elastic Beat outputs
 
 ### Browser Support
