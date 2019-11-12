@@ -41,20 +41,9 @@ func (bt *Browserbeat) Run(b *beat.Beat) error {
 		return err
 	}
 	ticker := time.NewTicker(bt.config.Period)
+
 	// A list of supported browsers
-	browserNames := []string{
-		"chrome",
-		"chrome-canary",
-		"chrome-beta",
-		"chrome-dev",
-		"chromium",
-		"firefox",
-		"safari",
-		"vivaldi",
-		"opera",
-		"k-meleon",
-		"brave",
-	}
+	browserNames := getSupportedBrowsers()
 
 	for {
 		select {

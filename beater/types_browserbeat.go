@@ -34,6 +34,10 @@ type systemBrowserHistoryPaths struct {
 	opera        []userBrowserHistoryPath
 	kmeleon      []userBrowserHistoryPath
 	brave        []userBrowserHistoryPath
+	edge         []userBrowserHistoryPath
+	edgeBeta     []userBrowserHistoryPath
+	edgeDev      []userBrowserHistoryPath
+	edgeCanary   []userBrowserHistoryPath
 }
 
 type queryMap struct {

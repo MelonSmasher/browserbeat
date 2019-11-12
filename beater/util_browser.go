@@ -6,6 +6,26 @@ import (
 	"path/filepath"
 )
 
+func getSupportedBrowsers() []string {
+	return []string{
+		"chrome",
+		"chrome-canary",
+		"chrome-beta",
+		"chrome-dev",
+		"chromium",
+		"edge",
+		"edge-beta",
+		"edge-dev",
+		"edge-canary",
+		"firefox",
+		"safari",
+		"vivaldi",
+		"opera",
+		"k-meleon",
+		"brave",
+	}
+}
+
 // Returns a list of chrome based browsers
 // The following browsers have the same history db schema thus the same query is used
 func getChromes() []string {
@@ -18,6 +38,10 @@ func getChromes() []string {
 		"vivaldi",
 		"opera",
 		"brave",
+		"edge",
+		"edge-beta",
+		"edge-dev",
+		"edge-canary",
 	}
 }
 
