@@ -54,7 +54,7 @@ Browserbeat is a lightweight passive solution for web traffic monitoring. Browse
 * :white_check_mark: Vivaldi - Done
 * :white_check_mark: Opera - Done
 * :white_check_mark: K-Meleon - Done
-* :yellow_heart: Brave - Haven't investigated yet
+* :white_check_mark: Brave - Done
 * :yellow_heart: Epic - Haven't investigated yet
 * :sos: Edge - M$ is too cool and uses an ESE database anyone know of an ESE DB library for go?
 * :sos: IE 11 - M$ is too cool and uses an ESE database anyone know of an ESE DB library for go?

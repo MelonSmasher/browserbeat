@@ -181,6 +181,7 @@ func getChromes() []string {
 		"chrome-dev",
 		"vivaldi",
 		"opera",
+		"brave",
 	}
 }
 

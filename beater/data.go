@@ -19,6 +19,7 @@ func getBrowserHistoryPaths() systemBrowserHistoryPaths {
 	histories.vivaldi = getVivaldiPaths(users)
 	histories.opera = getOperaPaths(users)
 	histories.kmeleon = getKmeleonPaths(users)
+	histories.brave = getBravePaths(users)
 	return *histories
 }
 
@@ -46,6 +47,8 @@ func chooseBrowserDataPath(browser string, browsers systemBrowserHistoryPaths) [
 		return browsers.opera
 	case "k-meleon":
 		return browsers.kmeleon
+	case "brave":
+		return browsers.brave
 	default:
 		return none
 	}
