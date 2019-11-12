@@ -45,12 +45,12 @@ Browserbeat is a lightweight passive solution for web traffic monitoring. Browse
 ### Browser Support
 
 * :white_check_mark: Chrome - Done
-* :white_check_mark: Firefox - Done
-* :white_check_mark: Safari (macOS) - Done
-* :white_check_mark: Chromium - Done
-* :white_check_mark: Chrome Canary - Done
+    * :white_check_mark: Chrome Canary (Windows & macOS) - Done
     * :white_check_mark: Chrome Beta (linux) - Done
     * :white_check_mark: Chrome Dev (linux) - Done
+* :white_check_mark: Chromium - Done
+* :white_check_mark: Firefox - Done
+* :white_check_mark: Safari (macOS) - Done
 * :white_check_mark: Vivaldi - Done
 * :white_check_mark: Opera - Done
 * :white_check_mark: K-Meleon - Done
