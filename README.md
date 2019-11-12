@@ -44,17 +44,17 @@ Browserbeat is a lightweight passive solution for web traffic monitoring. Browse
 
 ### Browser Support
 
-* :white_check_mark: Chrome - Done
+* :white_check_mark: Chrome (All) - Done
     * :white_check_mark: Chrome Canary (Windows & macOS) - Done
     * :white_check_mark: Chrome Beta (linux) - Done
     * :white_check_mark: Chrome Dev (linux) - Done
-* :white_check_mark: Chromium - Done
-* :white_check_mark: Firefox - Done
+* :white_check_mark: Chromium (All) - Done
+* :white_check_mark: Firefox (All) - Done
 * :white_check_mark: Safari (macOS) - Done
-* :white_check_mark: Vivaldi - Done
-* :white_check_mark: Opera - Done
-* :white_check_mark: K-Meleon - Done
-* :white_check_mark: Brave - Done
+* :white_check_mark: Vivaldi (All) - Done
+* :white_check_mark: Opera (All) - Done
+* :white_check_mark: K-Meleon (Windows) - Done
+* :white_check_mark: Brave (All) - Done
 * :sos: Edge - M$ is too cool and uses an ESE database anyone know of an ESE DB library for go?
 * :sos: IE 11 - M$ is too cool and uses an ESE database anyone know of an ESE DB library for go?
 
