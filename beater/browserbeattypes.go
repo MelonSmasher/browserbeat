@@ -32,6 +32,7 @@ type systemBrowserHistoryPaths struct {
 	safari       []userBrowserHistoryPath
 	vivaldi      []userBrowserHistoryPath
 	opera        []userBrowserHistoryPath
+	kmeleon      []userBrowserHistoryPath
 }
 
 type queryMap struct {
