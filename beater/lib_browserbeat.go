@@ -20,6 +20,10 @@ func getBrowserHistoryPaths() systemBrowserHistoryPaths {
 	histories.opera = getOperaPaths(users)
 	histories.kmeleon = getKmeleonPaths(users)
 	histories.brave = getBravePaths(users)
+	histories.edge = getEdgePaths(users)
+	histories.edgeBeta = getEdgeBetaPaths(users)
+	histories.edgeDev = getEdgeDevPaths(users)
+	histories.edgeCanary = getEdgeCanaryPaths(users)
 	return *histories
 }
 
@@ -49,6 +53,14 @@ func chooseBrowserDataPath(browser string, browsers systemBrowserHistoryPaths) [
 		return browsers.kmeleon
 	case "brave":
 		return browsers.brave
+	case "edge":
+		return browsers.edge
+	case "edge-canary":
+		return browsers.edgeCanary
+	case "edge-beta":
+		return browsers.edgeBeta
+	case "edge-dev":
+		return browsers.edgeDev
 	default:
 		return none
 	}
