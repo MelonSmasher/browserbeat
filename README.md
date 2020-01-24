@@ -55,7 +55,7 @@ Browserbeat is a lightweight passive solution for web traffic monitoring. Browse
 * :white_check_mark: Opera (All) - Done
 * :white_check_mark: K-Meleon (Windows) - Done
 * :white_check_mark: Brave (All) - Done
-* :yellow_heart: Microsoft Edge - Not released yet
+* :white_check_mark: Microsoft Edge - (Windows & macOS) - Done
     * :white_check_mark: Microsoft Edge Beta (Windows & macOS) - Done
     * :white_check_mark: Microsoft Edge Dev (Windows & macOS) - Done
     * :white_check_mark: Microsoft Edge Canary (Windows & macOS) - Done
