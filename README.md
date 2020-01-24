@@ -55,8 +55,12 @@ Browserbeat is a lightweight passive solution for web traffic monitoring. Browse
 * :white_check_mark: Opera (All) - Done
 * :white_check_mark: K-Meleon (Windows) - Done
 * :white_check_mark: Brave (All) - Done
-* :sos: Edge - M$ is too cool and uses an ESE database anyone know of an ESE DB library for go?
-* :sos: IE 11 - M$ is too cool and uses an ESE database anyone know of an ESE DB library for go?
+* :yellow_heart: Microsoft Edge - Not released yet
+    * :white_check_mark: Microsoft Edge Beta (Windows & macOS) - Done
+    * :white_check_mark: Microsoft Edge Dev (Windows & macOS) - Done
+    * :white_check_mark: Microsoft Edge Canary (Windows & macOS) - Done
+* :sos: Microsoft Edge Legacy - Uses an ESE database anyone know of an ESE DB library for go?
+* :sos: IE 11 - Uses an ESE database anyone know of an ESE DB library for go?
 
 Feel free to suggest more browsers.
 
